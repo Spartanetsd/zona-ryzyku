@@ -1,35 +1,48 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Зона ризику</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
-/* Layout: one dark column like a briefing board; the game sits in a bordered frame mid-page */
+/* Layout: a briefing board. Full-bleed photo hero, then one dark column; the game sits in a framed slot. */
 :root{
-  --bg:#0e1420; --bg2:#141c2b; --line:#2a3447;
-  --fg:#e9edf3; --mute:#9fb0c6;
-  --acc:#ffd75e;   /* світловідбивна стрічка на жилеті */
-  --red:#e2453c; --grn:#8ce0ab;
+  --bg:#0c111b; --bg2:#131a28; --line:#28324a;
+  --fg:#eaeef4; --mute:#9fb0c6;
+  --acc:#ffd75e;   /* reflective tape on the vest */
+  --red:#d9312b;   /* the cross on the patch */
+  --grn:#8ce0ab;
   --display:"Oswald","Arial Narrow",Arial,sans-serif;
   --body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55}
-.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:0 60px}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+.wrap{max-width:1060px;margin:0 auto;padding-inline:20px;padding-block:0 60px}
 h1,h2,h3{font-family:var(--display);font-weight:500;text-wrap:balance;letter-spacing:.01em;margin:0}
 .eyebrow{font-family:var(--display);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
 p{max-width:66ch;margin:0}
 a{color:var(--acc)}
+img{max-width:100%;display:block}
 
-/* hero */
-.hero{padding-block:56px 36px;border-bottom:3px solid var(--acc);display:grid;gap:18px}
-.hero h1{font-size:clamp(2.6rem,8vw,5.4rem);line-height:.95;text-transform:uppercase}
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:min(78vh,640px);display:grid;align-items:end;
+  background:#0a0d14 url("city.jpg") center 35%/cover no-repeat;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(12,17,27,.35) 0%,rgba(12,17,27,.15) 35%,rgba(12,17,27,.86) 72%,var(--bg) 100%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.14;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>")}
+.hero-in{width:100%;max-width:1060px;margin:0 auto;padding:120px 20px 44px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+.hero h1{font-size:clamp(2.7rem,8.5vw,5.6rem);line-height:.92;text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,.6)}
 .hero h1 span{display:block;color:var(--acc)}
-.hero .lead{font-size:1.25rem;color:var(--mute);max-width:52ch}
-.tape{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--display);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.hero .lead{font-size:1.2rem;color:#d4dce8;max-width:50ch;margin-top:16px;text-shadow:0 1px 12px rgba(0,0,0,.7)}
+.emblem{width:clamp(96px,14vw,150px);aspect-ratio:700/771;border-radius:6px;overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08)}
+.emblem img{width:100%;height:100%;object-fit:cover}
+.tape{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--display);font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);
+  padding-block:16px;border-top:3px solid var(--acc)}
 .tape b{color:var(--fg);font-weight:500}
+.credit{font-size:.78rem;color:#7f8ea4;letter-spacing:.04em}
 
-/* game */
-.game{padding-block:40px;display:grid;gap:14px}
+/* ---------- game ---------- */
+.game{padding-block:34px 40px;display:grid;gap:14px}
 .frame{position:relative;width:100%;aspect-ratio:16/9;max-width:100%;background:#000;border:2px solid var(--line);border-radius:6px;overflow:hidden}
 .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .gbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
@@ -39,32 +52,66 @@ a{color:var(--acc)}
 .btn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .hint{color:var(--mute);font-size:.95rem}
 
-/* sections */
-section{padding-block:40px;border-top:1px solid var(--line);display:grid;gap:18px}
-section h2{font-size:clamp(1.7rem,4vw,2.4rem);text-transform:uppercase}
+/* ---------- sections ---------- */
+section{padding-block:44px;border-top:1px solid var(--line);display:grid;gap:18px}
+section h2{font-size:clamp(1.7rem,4vw,2.5rem);text-transform:uppercase}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px 36px}
 .cols>*{min-width:0}
 .cols h3{font-size:1.15rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+
+/* photo + text split */
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:36px;align-items:start}
+.split figure{margin:0;display:grid;gap:8px}
+.split figure img{width:100%;height:auto;border-radius:6px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+.split figcaption{font-size:.88rem;color:var(--mute)}
+.split .text{display:grid;gap:16px}
+.patchrow{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  padding:18px;background:var(--bg2);border:1px solid var(--line);border-radius:6px}
+.patchrow img{width:clamp(90px,12vw,130px);border-radius:4px}
+.patchrow p{font-size:.98rem;color:var(--mute)}
+.patchrow b{color:var(--fg);font-weight:600}
+
 .march{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
 .march div{border-left:3px solid var(--acc);padding:6px 12px;background:var(--bg2)}
 .march b{font-family:var(--display);font-size:1.6rem;display:block;line-height:1;color:var(--acc)}
 .march span{font-size:.92rem;color:var(--mute)}
-.quote{border-left:3px solid var(--line);padding-left:18px;color:var(--mute);font-style:italic;max-width:60ch}
+.quote{border-left:3px solid var(--red);padding-left:18px;color:#d4dce8;font-style:italic;max-width:60ch;font-size:1.08rem}
 .timeline{display:grid;gap:10px;max-width:70ch}
 .timeline div{display:grid;grid-template-columns:5.5em 1fr;gap:12px;align-items:baseline}
 .timeline b{font-family:var(--display);font-weight:500;color:var(--acc);font-variant-numeric:tabular-nums}
-footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}
-@media (max-width:640px){ .hero{padding-block:36px 26px} body{font-size:16px} }
-@media (prefers-reduced-motion:no-preference){ .hero h1 span{animation:in .6s ease-out both} @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}} }
+footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line);display:grid;gap:6px}
+
+@media (max-width:720px){
+  .hero{min-height:min(70vh,560px)}
+  .hero-in{grid-template-columns:1fr;padding-top:90px}
+  .emblem{order:-1;width:92px}
+  .split{grid-template-columns:1fr}
+  .split figure{max-width:420px}
+  body{font-size:16px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .hero h1,.hero .lead,.emblem{animation:in .7s ease-out both}
+  .hero .lead{animation-delay:.12s}.emblem{animation-delay:.2s}
+  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
 </style>
 
+<header class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="eyebrow">Тренінговий центр · ГУНП в Донецькій області</div>
+      <h1>Зона ризику <span>Парамедики Донеччини</span></h1>
+      <p class="lead">Тренажер для тих, хто перший приїздить туди, куди щойно прилетіло. Сортування, допомога за MARCH, евакуація під загрозою дронів. Тридцять виїздів у Костянтинівці, Дружківці й Краматорську.</p>
+    </div>
+    <div class="emblem"><img src="patch.jpg" alt="Шеврон «Поліція · Парамедики»: червоний хрест із жезлом Асклепія на чорному щиті"></div>
+  </div>
+</header>
+
 <div class="wrap">
-  <header class="hero">
-    <div class="eyebrow">Тренінговий центр · ГУНП в Донецькій області</div>
-    <h1>Зона ризику <span>Парамедики Донеччини</span></h1>
-    <p class="lead">Браузерний тренажер для тих, хто перший приїздить туди, куди щойно прилетіло. Сортування, допомога за MARCH, евакуація під загрозою дронів. Тридцять виїздів у трьох містах: Костянтинівка, Дружківка, Краматорськ.</p>
-    <div class="tape"><span>Один файл · без інтернету</span><span>Телефон або компʼютер</span><span>Тривалість етапу <b>2–4 хв</b></span></div>
-  </header>
+  <div class="tape">
+    <span>Один файл · без інтернету</span><span>Телефон або компʼютер</span><span>Етап <b>2–4 хв</b></span>
+    <span class="credit" style="margin-left:auto">Фото: Національна поліція України</span>
+  </div>
 
   <div class="game" id="gra">
     <div class="gbar">
@@ -81,16 +128,16 @@ footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px sol
   <section id="chomu">
     <div class="eyebrow">Навіщо це</div>
     <h2>Поліцейський, який встигає першим</h2>
-    <div class="cols">
-      <div>
+    <div class="split">
+      <div class="text">
         <p>У прифронтових містах Донеччини поліцейський наряд часто опиняється на місці удару раніше за швидку. Поки медики їдуть, рахунок іде на хвилини: зупинити кровотечу, відкрити дихальні шляхи, винести з-під повторного удару, визначити, кого везти першим.</p>
-      </div>
-      <div>
         <p>Тому тактична медицина стала частиною службової підготовки поліції. Протоколи, за якими працюють бійці на фронті, адаптовано для роботи серед цивільних: у дворах, під'їздах, на ринках, де поранені не носять бронежилетів і не чекали удару.</p>
-      </div>
-      <div>
         <p>Тренажер робить одне: перетворює порядок дій на рефлекс. Не потрібно читати, що робити з пульсуючою кровотечею зі стегна. Потрібно побачити її і накласти турнікет раніше, ніж подумав.</p>
       </div>
+      <figure>
+        <img src="van.jpg" alt="Поліцейський парамедик у броньованому автомобілі з медичним рюкзаком, шеврон «Поліція · Парамедики» на плечі" loading="lazy">
+        <figcaption>В евакуаційному автомобілі перед виїздом. На плечі — шеврон парамедиків поліції Донеччини, під рукою — медичний рюкзак і аптечка.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -107,6 +154,10 @@ footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px sol
       <div>
         <p>Поряд із ними працюють поліцейські парамедики: ті, хто пройшов курс тактичної медицини і виїжджає на удари по містах разом із нарядом. Їхня робота не має назви в штатному розписі. Вона має результат: людина, яка дожила до лікарні.</p>
       </div>
+    </div>
+    <div class="patchrow">
+      <img src="patch.jpg" alt="Шеврон парамедиків поліції крупним планом">
+      <p><b>Шеврон парамедиків поліції.</b> Червоний хрест із жезлом Асклепія на крилах поліцейської зірки. Білий напис «Поліція» над червоним «Парамедики»: спершу служба, потім спеціалізація. Його носять на рукаві ті, хто їде на удар разом із нарядом, а не слідом за ним.</p>
     </div>
     <div class="timeline">
       <div><b>2022</b><span>Поліція Донеччини починає масову евакуацію цивільних із зони бойових дій. Перша допомога стає частиною кожного виїзду.</span></div>
@@ -146,7 +197,10 @@ footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px sol
     </div>
   </section>
 
-  <footer>Тренажер «Зона ризику» розроблено в Тренінговому центрі ГУНП в Донецькій області на основі досвіду виїздів поліцейських парамедиків. Усі персонажі та місця подій вигадані.</footer>
+  <footer>
+    <span>Тренажер «Зона ризику» розроблено в Тренінговому центрі ГУНП в Донецькій області на основі досвіду виїздів поліцейських парамедиків. Усі персонажі та місця подій у грі вигадані.</span>
+    <span class="credit">Фотографії: Національна поліція України.</span>
+  </footer>
 </div>
 
 <script>
@@ -160,5 +214,3 @@ footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px sol
   });
 })();
 </script>
-
-</body></html>
