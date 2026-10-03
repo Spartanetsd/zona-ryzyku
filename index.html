@@ -1,0 +1,164 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Зона ризику</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: one dark column like a briefing board; the game sits in a bordered frame mid-page */
+:root{
+  --bg:#0e1420; --bg2:#141c2b; --line:#2a3447;
+  --fg:#e9edf3; --mute:#9fb0c6;
+  --acc:#ffd75e;   /* світловідбивна стрічка на жилеті */
+  --red:#e2453c; --grn:#8ce0ab;
+  --display:"Oswald","Arial Narrow",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:0 60px}
+h1,h2,h3{font-family:var(--display);font-weight:500;text-wrap:balance;letter-spacing:.01em;margin:0}
+.eyebrow{font-family:var(--display);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+p{max-width:66ch;margin:0}
+a{color:var(--acc)}
+
+/* hero */
+.hero{padding-block:56px 36px;border-bottom:3px solid var(--acc);display:grid;gap:18px}
+.hero h1{font-size:clamp(2.6rem,8vw,5.4rem);line-height:.95;text-transform:uppercase}
+.hero h1 span{display:block;color:var(--acc)}
+.hero .lead{font-size:1.25rem;color:var(--mute);max-width:52ch}
+.tape{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--display);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.tape b{color:var(--fg);font-weight:500}
+
+/* game */
+.game{padding-block:40px;display:grid;gap:14px}
+.frame{position:relative;width:100%;aspect-ratio:16/9;max-width:100%;background:#000;border:2px solid var(--line);border-radius:6px;overflow:hidden}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.gbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.btn{font-family:var(--display);font-size:1rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;
+  color:#14110a;background:var(--acc);padding:10px 18px;border-radius:4px;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+.btn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.hint{color:var(--mute);font-size:.95rem}
+
+/* sections */
+section{padding-block:40px;border-top:1px solid var(--line);display:grid;gap:18px}
+section h2{font-size:clamp(1.7rem,4vw,2.4rem);text-transform:uppercase}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px 36px}
+.cols>*{min-width:0}
+.cols h3{font-size:1.15rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.march{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
+.march div{border-left:3px solid var(--acc);padding:6px 12px;background:var(--bg2)}
+.march b{font-family:var(--display);font-size:1.6rem;display:block;line-height:1;color:var(--acc)}
+.march span{font-size:.92rem;color:var(--mute)}
+.quote{border-left:3px solid var(--line);padding-left:18px;color:var(--mute);font-style:italic;max-width:60ch}
+.timeline{display:grid;gap:10px;max-width:70ch}
+.timeline div{display:grid;grid-template-columns:5.5em 1fr;gap:12px;align-items:baseline}
+.timeline b{font-family:var(--display);font-weight:500;color:var(--acc);font-variant-numeric:tabular-nums}
+footer{padding-block:28px 0;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}
+@media (max-width:640px){ .hero{padding-block:36px 26px} body{font-size:16px} }
+@media (prefers-reduced-motion:no-preference){ .hero h1 span{animation:in .6s ease-out both} @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}} }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Тренінговий центр · ГУНП в Донецькій області</div>
+    <h1>Зона ризику <span>Парамедики Донеччини</span></h1>
+    <p class="lead">Браузерний тренажер для тих, хто перший приїздить туди, куди щойно прилетіло. Сортування, допомога за MARCH, евакуація під загрозою дронів. Тридцять виїздів у трьох містах: Костянтинівка, Дружківка, Краматорськ.</p>
+    <div class="tape"><span>Один файл · без інтернету</span><span>Телефон або компʼютер</span><span>Тривалість етапу <b>2–4 хв</b></span></div>
+  </header>
+
+  <div class="game" id="gra">
+    <div class="gbar">
+      <div><div class="eyebrow">Гра</div><h2 style="font-size:1.5rem">Почати виїзд</h2></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" id="fs" type="button">На весь екран</button>
+        <a class="btn ghost" href="zona-ryzyku.html" target="_blank" rel="noopener">Відкрити окремо</a>
+      </div>
+    </div>
+    <div class="frame"><iframe id="gameFrame" src="zona-ryzyku.html" title="Зона ризику — гра" allow="fullscreen"></iframe></div>
+    <p class="hint">На телефоні поверніть пристрій горизонтально. Керування одним пальцем: торкніться місця на мапі, щоб іти, торкніться постраждалого, щоб підійти. Прогрес зберігається у вашому браузері.</p>
+  </div>
+
+  <section id="chomu">
+    <div class="eyebrow">Навіщо це</div>
+    <h2>Поліцейський, який встигає першим</h2>
+    <div class="cols">
+      <div>
+        <p>У прифронтових містах Донеччини поліцейський наряд часто опиняється на місці удару раніше за швидку. Поки медики їдуть, рахунок іде на хвилини: зупинити кровотечу, відкрити дихальні шляхи, винести з-під повторного удару, визначити, кого везти першим.</p>
+      </div>
+      <div>
+        <p>Тому тактична медицина стала частиною службової підготовки поліції. Протоколи, за якими працюють бійці на фронті, адаптовано для роботи серед цивільних: у дворах, під'їздах, на ринках, де поранені не носять бронежилетів і не чекали удару.</p>
+      </div>
+      <div>
+        <p>Тренажер робить одне: перетворює порядок дій на рефлекс. Не потрібно читати, що робити з пульсуючою кровотечею зі стегна. Потрібно побачити її і накласти турнікет раніше, ніж подумав.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="istoriya">
+    <div class="eyebrow">Для історії</div>
+    <h2>Парамедики поліції Донеччини</h2>
+    <div class="cols">
+      <div>
+        <p>З початку повномасштабного вторгнення поліція Донецької області стала службою, яка не лише охороняє порядок, а й вивозить людей. Евакуаційні екіпажі заходять у міста під обстрілом, забирають тих, хто не може або не хоче виїхати сам, надають першу допомогу просто в машині.</p>
+      </div>
+      <div>
+        <p>Найвідоміший із цих підрозділів, «Білі янголи», вивіз із прифронтових громад десятки тисяч цивільних, серед них сотні дітей. Їхні броньовані мікроавтобуси бачили Бахмут, Авдіївку, Мар'їнку, Торецьк і ті села, назви яких уже не позначають на мапах.</p>
+      </div>
+      <div>
+        <p>Поряд із ними працюють поліцейські парамедики: ті, хто пройшов курс тактичної медицини і виїжджає на удари по містах разом із нарядом. Їхня робота не має назви в штатному розписі. Вона має результат: людина, яка дожила до лікарні.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div><b>2022</b><span>Поліція Донеччини починає масову евакуацію цивільних із зони бойових дій. Перша допомога стає частиною кожного виїзду.</span></div>
+      <div><b>2023</b><span>Тактична медицина входить у службову підготовку. Тренінговий центр готує поліцейських за адаптованими протоколами TCCC.</span></div>
+      <div><b>2024–25</b><span>FPV-дрони змінюють правила: укриття, час на відкритому і момент виходу стають такими ж рішеннями, як турнікет.</span></div>
+      <div><b>2026</b><span>Досвід виїздів лягає в тренажер «Зона ризику»: тридцять сценаріїв, побудованих на тому, що бачили на вулицях Костянтинівки, Дружківки і Краматорська.</span></div>
+    </div>
+    <p class="quote">Ми не вибираємо, куди їхати. Ми вибираємо, кого рятувати першим. Цьому й учить гра.</p>
+  </section>
+
+  <section id="march">
+    <div class="eyebrow">Чого вчить</div>
+    <h2>Порядок, у якому вбиває найшвидше</h2>
+    <p>Алгоритм MARCH: п'ять кроків, кожен наступний робиться лише після попереднього. У грі він видимий на екрані, а кожна кнопка підписана літерою свого кроку.</p>
+    <div class="march">
+      <div><b>M</b><span>Масивна кровотеча. Турнікет на кінцівку, тампонація в паху чи пахві.</span></div>
+      <div><b>A</b><span>Дихальні шляхи. Непритомний на спині втрачає прохідність, щойно лишається сам.</span></div>
+      <div><b>R</b><span>Дихання. Наліпка на рану грудей; якщо тиск наростає, голкова декомпресія.</span></div>
+      <div><b>C</b><span>Кровообіг. Тиснуча пов'язка, контроль стану, повторний огляд.</span></div>
+      <div><b>H</b><span>Тепло. Гіпотермія посилює кровотечу навіть улітку.</span></div>
+    </div>
+    <div class="cols" style="margin-top:8px">
+      <div><h3>Сортування</h3><p>Присвоєна категорія лишається з людиною. Стабілізований «червоний» і далі червоний: він їде першим. Швидка бере за категорією, а не за чергою.</p></div>
+      <div><h3>Ресурс</h3><p>Укладка не безмежна. Поповнення привозить швидка, і це рішення: на кого витратити турнікет, кому досить пов'язки.</p></div>
+      <div><h3>Дрон</h3><p>Спершу його чути, і є кілька секунд дійти до укриття. Під козирком, аркою чи кроною вас не видно. На відкритому рух помітніший за нерухомість.</p></div>
+      <div><h3>Невідома кількість</h3><p>Диспетчер не завжди знає, скільки поранених. Оголосити сцену чистою можна лише після обходу, і розбір покаже, скільки людей лишилось на вулиці.</p></div>
+    </div>
+  </section>
+
+  <section id="yak">
+    <div class="eyebrow">Як використовувати</div>
+    <h2>На занятті і вдома</h2>
+    <div class="cols">
+      <div><h3>Інструктору</h3><p>Один етап триває дві-чотири хвилини. Після кожного гра показує повтор маршруту з позначками рішень і один висновок, як сказав би інструктор. Це готовий матеріал для розбору в групі.</p></div>
+      <div><h3>Слухачу</h3><p>Перші п'ять виїздів час у панелі допомоги стоїть. З шостого він іде: рішення під тиском. Проходьте кампанію до кінця, повертайтесь до етапів, де втратили людей.</p></div>
+      <div><h3>Усім</h3><p>Файл працює без інтернету на телефоні й комп'ютері. У меню є самоперевірка: вона за кілька секунд ганяє всі ключові ланцюги гри і показує, що все ціле.</p></div>
+    </div>
+  </section>
+
+  <footer>Тренажер «Зона ризику» розроблено в Тренінговому центрі ГУНП в Донецькій області на основі досвіду виїздів поліцейських парамедиків. Усі персонажі та місця подій вигадані.</footer>
+</div>
+
+<script>
+(function(){
+  var b=document.getElementById('fs'), f=document.getElementById('gameFrame');
+  b.addEventListener('click',function(){
+    var el=f.parentNode;
+    var req=el.requestFullscreen||el.webkitRequestFullscreen;
+    if(req){ try{ var p=req.call(el); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+    else window.open('zona-ryzyku.html','_blank');
+  });
+})();
+</script>
+
+</body></html>
