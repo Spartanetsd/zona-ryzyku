@@ -273,7 +273,7 @@
         · <b>Огляд не лікує.</b> Він каже, кого рятувати першим. Поки ви стоїте біля людини з кровотечею — ви тиснете рану рукою, і кров іде вдвічі повільніше (зелене кільце на тілі). Відійшли — тиск зник. Турнікет звільняє руки.<br>
         · Непритомний із відновленою прохідністю тримається, поки ви або напарник поруч. Лишили самого — дихання зривається знову.<br>
         · Що зробить керівник, залежить від обставин: скільки знайдено, скільки стабілізовано, чи безпечно на місці, як рано ви його викликали. Після виїзду гра пояснює, чому вийшло саме так.<br>
-        · <b>Склад — десятеро, у кожного своя сильна сторона.</b> Вона написана на картці й працює лише в оператора. <b>Дмитро</b> — розвідка: усі постраждалі одразу на мапі, число точне. <b>Сергій</b> — кнопка <b>ШВИДКА</b>: раз на виїзд приїде машина й забере одного, найважчого зі знайдених. <b>Андрій</b> — на табло вгорі відлік до прильоту дрона і стрілка, звідки; якщо не встиг сховатись — збиває. <b>Єгор</b> — веде двох напарників: обидва носять, обох можна послати, удвох зрушують плиту. <b>Марʼяна</b> — швидкий огляд, подвійна укладка, переносить. <b>Данило</b> — найшвидший на мапі. <b>Владислав</b> — найшвидше переносить. <b>Олексій</b> — заспокоює паніку миттєво. <b>Ігор</b> — найшвидший первинний огляд, <b>Олег</b> — швидше транспортування.<br>
+        · <b>Склад — десятеро, у кожного своя сильна сторона.</b> Вона написана на картці й працює в усіх, хто на виїзді: оператором чи напарником. <b>Дмитро</b> — розвідка: усі постраждалі одразу на мапі, число точне. <b>Сергій</b> — кнопка <b>ШВИДКА</b>: раз на виїзд приїде машина й забере одного, найважчого зі знайдених. <b>Андрій</b> — на табло вгорі відлік до прильоту дрона і стрілка, звідки; якщо не встиг сховатись — збиває. <b>Єгор</b> — веде двох напарників: обидва носять, обох можна послати, удвох зрушують плиту. <b>Марʼяна</b> — швидкий огляд, подвійна укладка, переносить. <b>Данило</b> — найшвидший на мапі. <b>Владислав</b> — найшвидше переносить. <b>Олексій</b> — заспокоює паніку миттєво. <b>Ігор</b> — найшвидший первинний огляд, <b>Олег</b> — швидше транспортування.<br>
         · Стан погіршується. Коли хтось переходить межу, гра каже про це вголос: «№3 НА МЕЖІ», кільце на шпильці, точка на краю екрана. Другий сигнал — «ВІДХОДИТЬ». Далі ви вже нічого не зміните.<br>
         · Поки хтось на межі, краї екрана дихають у ритмі серця. Що ближче до кінця — то швидше.<br>
         · Перші пʼять виїздів час у панелі допомоги стоїть — вчіться спокійно. З шостого він іде втричі повільніше за реальний, і в панелі горить напис <b>ЧАС ІДЕ</b>. Рішення ухвалюють під тиском.<br>
@@ -1321,6 +1321,16 @@ var careTarget=null, curDef=null;
 var ghost=null;   /* швидка, яка проїжджає повз і нічим не допомагає */
 var chief=null;   /* керівник: один виклик на виїзд, два можливі наслідки */
 var samb=null;    /* швидка на виклик Сергія: приїде й забере одного */
+/* здібність належить групі: байдуже, хто саме з трьох її має */
+function teamHas(k){
+  return !!((player.member&&player.member[k])||(partner.member&&partner.member[k])||
+            (crew.active&&crew.member&&crew.member[k]));
+}
+function teamMul(k){
+  var m=Math.max(player.member[k]||1, partner.member[k]||1);
+  if(crew.active&&crew.member) m=Math.max(m, crew.member[k]||1);
+  return m;
+}
 var drone=null;   /* FPV: спершу чути, потім видно, і лише потім наслідок */
 var sheep=null;   /* Дружківка. Життя триває, що б там не було */
 
@@ -1456,7 +1466,7 @@ function updateDrone(dt){
     drone.x+=ddx/dd*300*dt; drone.y+=ddy/dd*300*dt; drone.ang=Math.atan2(ddy,ddx);
     if(dd<16||drone.t>3.2){
       if(!coverAt(player.x,player.y)){
-        if(player.member.droneEye){ droneShot(); return; }
+        if(teamHas("droneEye")){ droneShot(); return; }
         droneStrike();
       }
       else toast("ВСТИГЛИ В УКРИТТЯ","good");
@@ -1574,7 +1584,7 @@ function sambCandidates(){
 }
 function canCallAmb(){
   /* кнопка зʼявляється тоді ж, коли й керівник: після першого підходу до пораненого */
-  return game.state==="play"&&!samb&&game.ambLeft>0&&!!player.member.callAmb&&!!game.chiefSeen&&sambCandidates().length>0;
+  return game.state==="play"&&!samb&&game.ambLeft>0&&teamHas("callAmb")&&!!game.chiefSeen&&sambCandidates().length>0;
 }
 function callAmb(){
   if(!canCallAmb()) return false;
@@ -1977,10 +1987,6 @@ function startStage(idx,demo,dd){
              ndc:(store.load.ndc===undefined?1:store.load.ndc)};
   if(curDef.shortKit){ var kq;
     for(kq in kitBase) kitBase[kq]=Math.max(1,Math.floor(kitBase[kq]*0.55)); }
-  /* Марʼяна бере вдвічі більше: укладка рахується від того, що несуть усі */
-  if(player.member.kitMul&&!game.drill){ var kq2;
-    for(kq2 in kitBase) kitBase[kq2]=Math.round(kitBase[kq2]*player.member.kitMul); }
-  inventory={tq:kitBase.tq,bnd:kitBase.bnd,seal:kitBase.seal,blk:kitBase.blk,ndc:kitBase.ndc};
 
   player.x=world.evac.x; player.y=world.evac.y+22; player.ang=-Math.PI/2;
   player.busy=null; player.carrying=null; player.moving=false; player.stun=0;
@@ -1996,12 +2002,16 @@ function startStage(idx,demo,dd){
   }
   crew.member=teamMembers[ci];
   game.crewT=curDef.crew?28:0;
-  /* Єгор веде двох: другий напарник іде з ним від першої секунди і слухається так само */
-  if(player.member.lead){
+  /* Єгор веде двох (оператором чи напарником): третій іде з першої секунди і слухається так само */
+  if(player.member.lead||partner.member.lead){
     var p2=(pickPart2!==pickOper&&pickPart2!==pickPart)?pickPart2:ci;
     crew.member=teamMembers[p2]; crew.active=true; crew.follow=true;
     crew.x=world.evac.x; crew.y=world.evac.y-44; game.crewT=0;
   }
+  /* Марʼяна бере вдвічі більше — у якому б слоті не була: укладка одна на групу */
+  var kmul=game.drill?1:teamMul("kitMul");
+  if(kmul!==1){ var kq2; for(kq2 in kitBase) kitBase[kq2]=Math.round(kitBase[kq2]*kmul); }
+  inventory={tq:kitBase.tq,bnd:kitBase.bnd,seal:kitBase.seal,blk:kitBase.blk,ndc:kitBase.ndc};
 
   /* розстановка постраждалих на досяжних тайлах */
   var r=mulberry(777+idx*31337), spots=[],i,tries;
@@ -2058,7 +2068,7 @@ function startStage(idx,demo,dd){
   }
   casualties.length=curDef.casualties.length;
   /* Дмитро: розвідка вже пройшла — усіх видно, число точне */
-  game.recon=!!(player.member.recon&&!game.drill);
+  game.recon=!!(teamHas("recon")&&!game.drill);
   if(game.recon) for(i=0;i<casualties.length;i++) casualties[i].found=true;
 
   /* свідок у паніці: заважає працювати, поки його не заспокоїти */
@@ -2116,7 +2126,7 @@ function startStage(idx,demo,dd){
   if(game.recon) game.report={kind:"exact", said:casualties.length, forIdx:idx};
   briefReport=null;
   /* швидка Сергія: один виклик на виїзд */
-  samb=null; game.ambLeft=(game.drill||curDef.prolog||!player.member.callAmb)?0:1; game.sambWhy="";
+  samb=null; game.ambLeft=(game.drill||curDef.prolog||!teamHas("callAmb"))?0:1; game.sambWhy="";
   game.declared=false; game.declareArm=0;
   /* «рятівник», що проїжджає повз: раз на виїзд і не в кожному */
   ghost=null; game.gagStage=0; game.gagT=0; hudPrev={}; hudMsg=null; hudMsgT=0;
@@ -3636,7 +3646,8 @@ function openMenu(){
   show("mMenu");
 }
 var pickOper=0,pickPart=2,pickPart2=3,pickSlot=0,briefIdx=0,briefReport=null,briefDefCur=null;
-function slotCount(){ return teamMembers[pickOper].lead?3:2; }
+function slotCount(){ return (teamMembers[pickOper].lead||teamMembers[pickPart].lead)?3:2; }
+function pickLead(){ return !!(teamMembers[pickOper].lead||teamMembers[pickPart].lead); }
 function pickOf(i){ return i===pickOper?0:(i===pickPart?1:((slotCount()>2&&i===pickPart2)?2:-1)); }
 function otherSlot(ex){ for(var i=0;i<teamMembers.length;i++) if(ex.indexOf(i)<0) return i; return 0; }
 function normPicks(){
@@ -3656,6 +3667,8 @@ function assignPick(i){
     pickPart=i; normPicks(); pickSlot=(slotCount()>2)?2:1;
   }else{
     if(cur===0) return;
+    /* Єгора з напарників у третій слот не пересаджують — третій слот є лише завдяки йому */
+    if(cur===1&&teamMembers[i].lead) return;
     if(cur===1) pickPart=pickPart2;
     pickPart2=i; normPicks();
   }
@@ -3677,7 +3690,9 @@ function openBrief(idx){
 /* рядок брифінгу залежить від того, кого обрали: розвідка знає число, Марʼяна несе вдвічі більше */
 function briefText(){
   var def=briefDefCur; if(!def||!briefReport) return;
-  var op=teamMembers[pickOper], recon=!!op.recon&&!def.drill, km=op.kitMul||1;
+  var op=teamMembers[pickOper], pa=teamMembers[pickPart], p3=pickLead()?teamMembers[pickPart2]:null;
+  var recon=!!(op.recon||pa.recon||(p3&&p3.recon))&&!def.drill;
+  var km=Math.max(op.kitMul||1, pa.kitMul||1, (p3&&p3.kitMul)||1);
   var rl = recon ? ("розвідка Дмитра: постраждалих <b>"+def.casualties.length+"</b>")
          : briefReport.kind==="exact"  ? ("постраждалих <b>"+briefReport.said+"</b>")
          : briefReport.kind==="approx" ? ("постраждалих <b>близько "+briefReport.said+"</b>")
@@ -3740,7 +3755,7 @@ function renderPicks(){
     })(i);
   }
   teamMembers.forEach(function(m,i){
-    var role=pickOf(i), lock=(pickSlot!==0&&role===0);
+    var role=pickOf(i), lock=(pickSlot!==0&&role===0)||(pickSlot===2&&role===1&&!!m.lead);
     var a=makeCard(m,i,role>=0,lock);
     if(role>=0){ var tg=document.createElement("div"); tg.className="tag"+(role===0?"":" t2");
       tg.textContent=SLOTNAMES[role]; a.appendChild(tg); }
@@ -3749,10 +3764,10 @@ function renderPicks(){
   });
   var h=document.getElementById("bHint");
   if(h) h.textContent = pickSlot===0
-      ? "Торкніться бійця — він стане оператором. Здібність працює лише в оператора."
-      : (teamMembers[pickOper].lead ? (pickSlot===2 ? "Тепер другий напарник: він теж носить і слухається."
-                                                    : "Єгор веде двох: оберіть першого напарника, потім другого.")
-                                    : "Торкніться бійця — він піде напарником.");
+      ? "Торкніться бійця — він стане оператором. Здібності працюють у всіх, хто на виїзді."
+      : (pickLead() ? (pickSlot===2 ? "Тепер другий напарник: він теж носить і слухається."
+                                    : "Єгор веде двох: оберіть першого напарника, потім другого.")
+                    : "Торкніться бійця — він піде напарником.");
   briefText();
 }
 /* Ознака має бути видимою, а не завченим рядком: те саме тіло з тими самими
@@ -4264,6 +4279,9 @@ var TESTS=[
     cs=tStage(14,{op:0,findAll:false});
     var f=0; for(i=0;i<cs.length;i++) if(cs[i].found) f++;
     if(f>=cs.length) return "без Дмитра теж видно всіх";
+    cs=tStage(14,{op:0,pa:4,findAll:false});
+    for(i=0;i<cs.length;i++) if(!cs[i].found) return "Дмитро-напарник не позначив №"+cs[i].id;
+    if(game.report.kind!=="exact") return "з Дмитром-напарником число не точне";
     return null;
  }],
  ["Сергій: швидка приїжджає й забирає рівно одного", function(){
@@ -4281,6 +4299,8 @@ var TESTS=[
     if(lostGone) return "забрала двохсотого";
     tStage(14,{op:0}); tNear(casualties[0]); tStep(0.2);
     if(canCallAmb()) return "швидку може викликати не Сергій";
+    tStage(14,{op:0,pa:5}); tNear(casualties[0]); tStep(0.2);
+    if(!canCallAmb()) return "Сергій-напарник не дає виклику";
     return null;
  }],
  ["Андрій: бачить дрон наперед і збиває на відкритому", function(){
@@ -4300,9 +4320,18 @@ var TESTS=[
     if(world.hazards.length>h0) return "скид попри Андрія";
     if(!game.notes.shot) return "дрон не збито";
     if(game.notes.drone) return "скид зараховано";
+    /* те саме, коли Андрій — напарник */
+    tStage(14,{op:0,pa:6});
+    if(!(game.droneT>0)||!game.droneFrom) return "з Андрієм-напарником нема відліку";
+    player.x=p.x; player.y=p.y; player.stun=0; h0=world.hazards.length;
+    droneStart();
+    for(i=0;i<2200&&drone;i++){ player.moving=true; update(1/30); }
+    if(world.hazards.length>h0||!game.notes.shot) return "Андрій-напарник не збив дрон";
     return null;
  }],
  ["Єгор: двоє напарників, обидва носять і звільняють", function(){
+    tStage(14,{op:2,pa:7,pa2:9});
+    if(!crew.active||!crew.follow||crew.member!==teamMembers[9]) return "Єгор-напарник не привів третього";
     var cs=tStage(14,{op:7,pa:2,pa2:9}),i,a=null,b=null,tr=null;
     if(!crew.active||!crew.follow) return "другого напарника нема";
     if(crew.member!==teamMembers[9]||partner.member!==teamMembers[2]) return "не ті люди";
@@ -4332,6 +4361,9 @@ var TESTS=[
     tStage(14,{op:0}); var base=kitBase.tq+kitBase.bnd+kitBase.seal+kitBase.blk;
     var cs=tStage(14,{op:1}); var dbl=kitBase.tq+kitBase.bnd+kitBase.seal+kitBase.blk;
     if(dbl<base*1.8) return "укладка не подвоєна: "+base+" → "+dbl;
+    tStage(14,{op:0,pa:1}); var dbl2=kitBase.tq+kitBase.bnd+kitBase.seal+kitBase.blk;
+    if(dbl2<base*1.8) return "з Марʼяною-напарником укладка не подвоєна";
+    cs=tStage(14,{op:1});
     if(player.member.noCarry) return "досі не переносить";
     var c=null; for(var i=0;i<cs.length;i++) if(!cs[i].canWalk&&!cs[i].trapped){ c=cs[i]; break; }
     if(!c) return "нема кого нести";
@@ -5458,7 +5490,7 @@ function drawDroneBanner(){
 }
 /* Андрій знає, коли й звідки: відлік і стрілка видно з першої секунди */
 function drawDroneEye(){
-  if(!player.member.droneEye||game.drill||game.state!=="play") return;
+  if(!teamHas("droneEye")||game.drill||game.state!=="play") return;
   var txt, col, ang=null;
   if(droneLive()){
     ang=Math.atan2(drone.y-player.y, drone.x-player.x);
